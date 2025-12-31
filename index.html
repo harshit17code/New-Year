@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Ojashvi ❤️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&family=Mrs+Saint+Delafield&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050505;
+            --primary: #ff2a6d; /* Neon Red/Pink */
+            --cyan: #05d9e8;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        html { scroll-behavior: smooth; }
+
+        /* --- CUSTOM SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff5c8d; }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            width: 100vw;
+            cursor: default;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease;
+        }
+        .heart-loader { font-size: 3rem; animation: heartbeat 1.5s infinite; }
+        .loading-text { margin-top: 15px; letter-spacing: 3px; font-size: 0.8rem; opacity: 0.7; }
+
+        /* --- BACKGROUND --- */
+        #stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1b1b2f 0%, #000 100%);
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            min-height: 90vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        h1, h2 { font-family: 'Playfair Display', serif; text-align: center; letter-spacing: 1px; }
+        
+        /* --- 1. HERO --- */
+        .hero-title {
+            font-size: 3.5rem;
+            /* Shimmer Effect */
+            background: linear-gradient(to right, #fff, #a0a0a0, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .typed-text {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--cyan);
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-right: 3px solid var(--cyan);
+            animation: blink 0.7s infinite;
+            text-shadow: 0 0 10px var(--cyan);
+            min-height: 1.5em; /* Prevents layout jump */
+        }
+
+        .scroll-indicator {
+            margin-top: 40px;
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.5);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        /* --- 2. DECODING CARDS --- */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 800px;
+        }
+
+        .msg-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 350px;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            line-height: 1.6;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .msg-card:hover { 
+            border-color: var(--primary); 
+            transform: translateY(-5px); 
+            box-shadow: 0 0 15px rgba(255, 42, 109, 0.3);
+        }
+        .msg-card.visible { opacity: 1; transform: translateY(0); }
+
+        /* --- 3. 3D CAROUSEL --- */
+        .carousel-scene {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            perspective: 1500px;
+            margin: 80px 0;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .carousel-cell {
+            position: absolute;
+            width: 280px;
+            height: 180px;
+            left: 10px;
+            top: 10px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: black;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .carousel-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+            transition: 0.5s;
+        }
+        .carousel-cell img:hover { filter: brightness(1.1); transform: scale(1.05); }
+
+        .spin-btn {
+            margin-top: 250px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .spin-btn:hover { background: var(--cyan); color: #000; box-shadow: 0 0 30px var(--cyan); }
+
+        /* --- 4. HINDI VERSE --- */
+        .verse-box {
+            text-align: center;
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 50px 0;
+            margin: 40px 0;
+            position: relative;
+        }
+        .verse-box::before { content: '✨'; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--bg); padding: 0 10px; }
+        .verse-box::after { content: '✨'; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); background: var(--bg); padding: 0 10px; }
+
+        .script-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff99ac;
+            line-height: 1.5;
+            text-shadow: 0 0 15px rgba(255, 153, 172, 0.4);
+        }
+
+        /* --- 5. BOARDING PASS --- */
+        .ticket-container { margin-top: 40px; }
+        .ticket {
+            width: 340px;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            color: #1a1a1a;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        .ticket:hover { transform: translateY(-5px); }
+        @media (min-width: 768px) { .ticket { width: 650px; display: flex; } }
+
+        .ticket-main { padding: 30px; flex: 1.5; border-bottom: 3px dashed #ccc; position: relative; }
+        @media (min-width: 768px) { .ticket-main { border-bottom: none; border-right: 3px dashed #ccc; } }
+        
+        .ticket-stub { padding: 30px; flex: 0.5; background: #f8f8f8; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+        .ticket-main::after, .ticket-main::before { content: ''; position: absolute; width: 24px; height: 24px; background: var(--bg); border-radius: 50%; bottom: -12px; }
+        .ticket-main::after { left: -12px; }
+        .ticket-main::before { right: -12px; }
+        @media (min-width: 768px) {
+            .ticket-main::after { top: -12px; right: -12px; left: auto; bottom: auto; }
+            .ticket-main::before { bottom: -12px; right: -12px; left: auto; }
+        }
+
+        .airline-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .flight-route { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .city-code { font-size: 3.5rem; font-weight: 800; font-family: 'Montserrat', sans-serif; line-height: 1; color: #000; }
+        .city-name { font-size: 0.8rem; color: #666; letter-spacing: 1px; font-weight: 600; }
+        .plane-icon { font-size: 2.5rem; color: var(--primary); transform: rotate(90deg); }
+
+        .flight-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        .detail-label { font-size: 0.7rem; color: #888; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .detail-value { font-size: 1.2rem; font-weight: 700; color: #000; font-family: 'Montserrat', sans-serif; }
+        .barcode { height: 50px; background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 4px); width: 100%; margin-top: 15px; opacity: 0.8; }
+
+        /* --- 6. COUNTDOWN --- */
+        #countdown {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-top: 20px;
+            color: var(--cyan);
+            text-shadow: 0 0 15px rgba(5, 217, 232, 0.5);
+        }
+
+        /* --- AUDIO FAB --- */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+        .music-btn:active { transform: scale(0.9); }
+        .music-btn.playing { animation: pulse-ring 2s infinite; border-color: var(--primary); color: var(--primary); }
+
+        /* --- TOUCH RIPPLE --- */
+        .ripple {
+            position: absolute;
+            width: 20px; height: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: ripple-anim 0.6s linear;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* --- HEART EXPLOSION --- */
+        .floater {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            animation: floatUp 4s linear forwards;
+            z-index: 9999;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes shimmer { 0% {background-position: 200% center;} 100% {background-position: -200% center;} }
+        @keyframes blink { 50% { border-color: transparent; } }
+        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(10px);} 60% {transform: translateY(5px);} }
+        @keyframes ripple-anim { 0% {width: 0; height: 0; opacity: 1;} 100% {width: 500px; height: 500px; opacity: 0;} }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(0); opacity: 0; } }
+        @keyframes pulse-ring { 0% {box-shadow: 0 0 0 0 rgba(255,42,109, 0.7);} 70% {box-shadow: 0 0 0 15px rgba(255,42,109, 0);} 100% {box-shadow: 0 0 0 0 rgba(255,42,109, 0);} }
+
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="heart-loader">❤️</div>
+        <div class="loading-text">Loading Love...</div>
+    </div>
+
+    <canvas id="stars"></canvas>
+
+    <div class="music-btn" onclick="toggleAudio()">♫</div>
+    <audio id="bg-music" loop>
+        <source src="music/lmlyd.m4a" type="audio/mp3"> 
+    </audio>
+
+    <section>
+        <p style="letter-spacing: 3px; font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; color: var(--primary);">FOR THE ONE WHO OWNS MY HEART</p>
+        <h1 class="hero-title">Happy New Year<br>Ojashvi</h1>
+        <div class="typed-text" id="typewriter"></div>
+        <div class="scroll-indicator" onclick="document.getElementById('reasons').scrollIntoView()">↓</div>
+    </section>
+
+    <section id="reasons">
+        <h2>Why You Mean Everything</h2>
+        <div class="card-container">
+            <div class="msg-card">
+                "I hope you always know how much you mean to me. You make my days brighter."
+            </div>
+            <div class="msg-card">
+                "I promise to love you a little more every single day, in every timezone, through every distance."
+            </div>
+            <div class="msg-card">
+                "You are my favorite notification, my late-night thought, and my beautiful reality."
+            </div>
+            <div class="msg-card">
+                "Thank you for being in my life. Thank you for being you."
+            </div>
+            <div class="msg-card">
+                "I'm so lucky to have you. You're not just anyone, you're special to me."
+            </div>
+            <div class="msg-card" style="border-color: var(--gold);">
+                "I'm grateful every day that I get to know you, that I get to care about you."
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Our Highlights</h2>
+        <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 20px;">Memories frozen in time</p>
+        
+        <div class="carousel-scene">
+            <div class="carousel" id="carousel">
+                </div>
+        </div>
+        
+        <button class="spin-btn" onclick="rotateCarousel()">SPIN THE MOMENTS</button>
+
+        <p style="margin-top: 40px; max-width: 700px; text-align: center; font-style: italic; line-height: 1.8; font-size: 1.1rem; opacity: 0.9;">
+            "2026 is almost here and I keep thinking about how much joy you gave me this year. I don't want anything big in the new year, just us staying close, loving each other the same way."
+        </p>
+    </section>
+
+    <section>
+        <div class="verse-box">
+            <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px; font-size: 2rem;">My Kohinoor</h3>
+            <div class="script-text">
+                Mahengi hai tu kohinoor se bhi..<br>
+                Khubsurat hai tu hoor se bhi..<br>
+                Dur se dikhte hain chand mein daag...<br>
+                Magar bedaag hai tu dur se bhi ...!!
+            </div>
+        </div>
+        <div style="max-width: 600px; text-align: center; margin-top: 20px; font-size: 1.2rem;">
+            "If dreaming is the only way to be with you then I'll never open my eyes."
+        </div>
+    </section>
+
+    <section>
+        <h2>The Promise</h2>
+        <div class="msg-card visible" style="max-width: 800px; text-align: justify; line-height: 2; font-size: 1.1rem; border: none; background: transparent; box-shadow: none;">
+            “Someday, we'll wake up slow, with no alarms and no rush, just your hand finding mine under the quiet morning light. The world will keep moving outside, but we won't need to. We'll stay there - between warmth and peace, between your breath and mine. And when you smile half-asleep, I'll whisper, 'We made it,' not because life got easy, but because love stayed.”
+        </div>
+    </section>
+
+    <section>
+        <h2 style="color: var(--gold); margin-bottom: 40px;">Your Next Destination</h2>
+        
+        <div class="ticket-container">
+            <div class="ticket">
+                <div class="ticket-main">
+                    <div class="airline-header">
+                        <span style="font-weight: 800; color: var(--primary); font-size: 1.2rem;">LOVE AIR</span>
+                        <span style="font-size: 0.9rem; letter-spacing: 2px; font-weight: 600;">BOARDING PASS</span>
+                    </div>
+                    
+                    <div class="flight-route">
+                        <div>
+                            <div class="city-code">LDR</div>
+                            <div class="city-name">DISTANCE</div>
+                        </div>
+                        <div class="plane-icon">✈</div>
+                        <div style="text-align: right;">
+                            <div class="city-code">US</div>
+                            <div class="city-name">TOGETHER</div>
+                        </div>
+                    </div>
+
+                    <div style="font-family: 'Mrs Saint Delafield', cursive; font-size: 2.2rem; margin: 15px 0; color: var(--primary);">
+                        Passenger: Ojashvi
+                    </div>
+
+                    <div class="flight-details">
+                        <div>
+                            <div class="detail-label">FLIGHT</div>
+                            <div class="detail-value">NY26</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">DATE</div>
+                            <div class="detail-value" style="color: var(--primary);">05 JAN</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">TIME</div>
+                            <div class="detail-value">14:00</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">GATE</div>
+                            <div class="detail-value">01</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">SEAT</div>
+                            <div class="detail-value">1A</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">CLASS</div>
+                            <div class="detail-value">VIP</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ticket-stub">
+                    <div style="font-weight: 800; font-size: 2rem; font-family: 'Montserrat', sans-serif;">US</div>
+                    <div style="font-size: 0.9rem; margin-bottom: 15px; font-weight: 600;">05 JAN 14:00</div>
+                    <div class="barcode"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px;">
+            <p style="letter-spacing: 3px; font-size: 0.9rem; font-weight: 600;">REMAINING TIME</p>
+            <div id="countdown">Loading...</div>
+        </div>
+
+        <button onclick="explodeHearts()" style="margin-top: 50px; padding: 18px 45px; background: var(--primary); color: white; border: none; font-weight: 700; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; box-shadow: 0 10px 30px rgba(255, 42, 109, 0.4); transition: transform 0.2s;">
+            CLAIM NEW YEAR KISS
+        </button>
+    </section>
+
+    <script>
+        // --- 0. PRELOADER ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 1000);
+            }, 1500);
+        });
+
+        // --- 1. SETUP PHOTOS HERE ---
+        const photos = [
+            "images/1.JPG",
+            "images/2.JPG",
+            "images/3.JPG",
+            "images/4.JPG",
+            "images/5.JPG",
+            "images/6.JPG",
+            "images/7.JPG",
+            "images/8.JPG",
+            "images/9.JPG",
+            "images/10.JPG",
+            "images/11.JPG",
+            "images/12.JPG",
+            "images/13.JPG",
+            "images/14.JPG",
+            "images/15.JPG",
+            "images/16.JPG",
+            "images/17.JPG"
+        ];
+
+        // --- 2. CAROUSEL LOGIC ---
+        const carousel = document.getElementById('carousel');
+        const cellCount = photos.filter(p => p.trim() !== "").length;
+        let selectedIndex = 0;
+
+        function buildCarousel() {
+            const cellWidth = 280;
+            const radius = Math.round((cellWidth / 2) / Math.tan(Math.PI / cellCount));
+            const theta = 360 / cellCount;
+            let i = 0;
+            photos.forEach((src) => {
+                if(src.trim() !== "") {
+                    const cell = document.createElement('div');
+                    cell.className = 'carousel-cell';
+                    cell.innerHTML = `<img src="${src}" loading="lazy">`;
+                    const angle = theta * i;
+                    cell.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+                    carousel.appendChild(cell);
+                    i++;
+                }
+            });
+            carousel.style.transform = `translateZ(-${radius}px)`;
+        }
+        
+        function rotateCarousel() {
+            selectedIndex++;
+            const theta = 360 / cellCount;
+            const angle = theta * selectedIndex * -1;
+            const cellWidth = 280;
+            const radius = Math.round((cellWidth / 2) / Math.tan(Math.PI / cellCount));
+            carousel.style.transform = `translateZ(-${radius}px) rotateY(${angle}deg)`;
+        }
+        if(cellCount > 0) buildCarousel();
+
+
+        // --- 3. COUNTDOWN (JAN 5, 2PM) ---
+        function updateTimer() {
+            const meetDate = new Date(2026, 0, 5, 14, 0, 0); 
+            const now = new Date();
+            const diff = meetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').innerText = "WE ARE TOGETHER!";
+                return;
+            }
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('countdown').innerText = `${d}D ${h}H ${m}M ${s}S`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // --- 4. TYPEWRITER EFFECT ---
+        const textToType = "You are worth every second of the wait.";
+        let charIndex = 0;
+        function typeWriter() {
+            if (charIndex < textToType.length) {
+                document.getElementById("typewriter").innerHTML += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        setTimeout(typeWriter, 2000);
+
+        // --- 5. SCROLL REVEAL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.msg-card').forEach(card => observer.observe(card));
+
+        // --- 6. AUDIO & RIPPLE ---
+        function toggleAudio() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.querySelector('.music-btn');
+            if(audio.paused) {
+                audio.play();
+                btn.innerText = "❚❚";
+                btn.classList.add('playing');
+            } else {
+                audio.pause();
+                btn.innerText = "♫";
+                btn.classList.remove('playing');
+            }
+        }
+
+        // Add Click Ripple
+        document.addEventListener('click', function(e) {
+            let ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            document.body.appendChild(ripple);
+            ripple.style.left = `${e.clientX}px`;
+            ripple.style.top = `${e.clientY}px`;
+            ripple.style.animation = 'ripple-anim 0.6s linear';
+            ripple.onanimationend = () => ripple.remove();
+        });
+
+        // --- 7. STARS BACKGROUND ---
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+        const stars = Array(100).fill().map(() => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 2,
+            opacity: Math.random()
+        }));
+        function animateStars() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+                star.opacity += (Math.random() - 0.5) * 0.05;
+                if(star.opacity < 0) star.opacity = 0;
+                if(star.opacity > 1) star.opacity = 1;
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        // --- 8. HEART EXPLOSION EFFECT ---
+        function explodeHearts() {
+            alert("I love you Ojashvi! Happy New Year! ❤️"); 
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floater');
+                heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💖';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+                heart.style.fontSize = Math.random() * 30 + 10 + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
